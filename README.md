@@ -2,6 +2,8 @@
 
 A web interface for controlling a joystick through serial communication, specifically designed for use with the Galagino emulator.
 
+https://fedekrum.github.io/Galagino-Serial-Joystick/
+
 ## Features
 
 - **Intuitive User Interface**
