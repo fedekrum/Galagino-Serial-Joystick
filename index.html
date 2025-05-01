@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Galagino Serial Joystick</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div
+      id="browserWarning"
+      class="browser-warning hidden bg-red-500 text-white p-4 text-center"
+    >
+      <p>
+        This application requires a Chromium-based browser (Chrome, Edge, or
+        Opera).
+        <a
+          href="https://www.google.com/chrome/"
+          target="_blank"
+          class="underline font-bold"
+          >Download Chrome</a
+        >
+        or
+        <a
+          href="https://www.microsoft.com/edge"
+          target="_blank"
+          class="underline font-bold"
+          >Download Edge</a
+        >
+      </p>
+    </div>
+
+    <div id="contentWrapper" class="content-wrapper">
+      <div class="container mx-auto px-4 py-8">
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
+          <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">
+              Galagino Serial Joystick
+            </h1>
+            <button
+              id="btnSettings"
+              class="btn p-2 text-gray-600 hover:text-gray-800 transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            class="flex flex-wrap gap-4 items-center bg-gray-50 p-4 rounded-lg"
+          >
+            <div class="flex gap-2 items-center">
+              <div
+                id="portInfo"
+                class="px-4 py-2 bg-gray-100 rounded min-w-[256px] text-gray-700"
+              >
+                No port selected
+              </div>
+              <button
+                id="btnRequestPermission"
+                class="btn flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+              <button
+                id="btnConnect"
+                class="btn flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 connect-icon"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 12h14m0 0l-6-6m6 6l-6 6"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 disconnect-icon hidden"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="gamepad" class="flex justify-center">
+          <div id="svg-container" style="width: 500px"></div>
+        </div>
+
+        <div id="keyState" class="text-center text-gray-700 mt-4">
+          KeyState: 0
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Dialog -->
+    <dialog id="settingsDialog" class="p-0 rounded-lg shadow-xl">
+      <div class="bg-white rounded-lg w-[400px]">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h3 class="text-lg font-semibold text-gray-800">Settings</h3>
+          <button
+            id="btnCloseSettings"
+            class="text-gray-500 hover:text-gray-700"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <!-- Serial Speed -->
+          <div class="mb-6">
+            <h4 class="font-medium text-gray-700 mb-2">Serial Speed</h4>
+            <select id="selBaud" class="w-full px-3 py-2 border rounded-md">
+              <option value="1200">1200 baud</option>
+              <option value="2400">2400 baud</option>
+              <option value="4800">4800 baud</option>
+              <option value="9600">9600 baud</option>
+              <option value="19200">19200 baud</option>
+              <option value="38400">38400 baud</option>
+              <option value="57600">57600 baud</option>
+              <option value="115200" selected>115200 baud (default)</option>
+              <option value="230400">230400 baud</option>
+              <option value="460800">460800 baud</option>
+              <option value="921600">921600 baud</option>
+            </select>
+          </div>
+
+          <!-- Key Mappings -->
+          <div>
+            <div class="flex justify-between items-center mb-4">
+              <h4 class="font-medium text-gray-700">Key Mappings</h4>
+              <button
+                id="btnResetKeys"
+                class="text-sm text-blue-500 hover:text-blue-600"
+              >
+                Reset to Default
+              </button>
+            </div>
+            <div class="space-y-3" id="keyMappings">
+              <!-- Key mapping entries will be inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Capture Modal -->
+      <div
+        id="keyCaptureModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      >
+        <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+          <h4 class="text-lg font-medium mb-4" id="captureTitle">
+            Press a key for Button
+          </h4>
+          <p class="text-gray-600 mb-4" id="captureKey">Waiting for input...</p>
+          <button
+            class="text-sm text-gray-500 hover:text-gray-700"
+            id="btnCancelCapture"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <template id="keyMappingTemplate">
+      <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+        <span class="font-medium text-gray-600"></span>
+        <div class="flex items-center gap-2">
+          <code
+            class="px-2 py-1 bg-gray-200 rounded text-sm key-display"
+          ></code>
+          <button class="change-key-btn text-blue-500 hover:text-blue-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </template>
+
+    <script type="module">
+      import { SerialHandler } from "./js/serial.js";
+      import { KeyHandler } from "./js/keyhandler.js";
+      import { UI } from "./js/ui.js";
+      import { UI_TEXTS } from "./js/config.js";
+
+      // Browser compatibility check
+      function isWebSerialSupported() {
+        return "serial" in navigator;
+      }
+
+      function showBrowserWarning() {
+        const warning = document.getElementById("browserWarning");
+        const wrapper = document.getElementById("contentWrapper");
+        warning.classList.remove("hidden");
+        wrapper.classList.add("with-warning");
+
+        // Disable all interactive elements
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach((button) => {
+          button.disabled = true;
+          button.title = "Not supported in this browser";
+        });
+      }
+
+      // Check browser compatibility before initializing
+      if (!isWebSerialSupported()) {
+        showBrowserWarning();
+      } else {
+        // Initialize the application
+        (async () => {
+          try {
+            const ui = new UI();
+
+            // Wait for SVG to load
+            await new Promise((resolve) => {
+              const checkSVG = setInterval(() => {
+                if (ui.svgLoaded) {
+                  clearInterval(checkSVG);
+                  resolve();
+                }
+              }, 100);
+            });
+
+            const serialHandler = new SerialHandler(
+              (isConnected) => {
+                ui.updateConnectionState(isConnected);
+              },
+              (data) => {
+                console.log("Received:", data);
+              }
+            );
+
+            const keyHandler = new KeyHandler(async (state) => {
+              ui.updateKeyState(state);
+              if (serialHandler.isConnected) {
+                try {
+                  await serialHandler.write(Uint8Array.of(state));
+                } catch (e) {
+                  ui.setError(UI_TEXTS.WRITE_ERROR);
+                }
+              }
+            });
+
+            // Initialize key handler
+            keyHandler.init();
+
+            // Setup UI event handlers
+            ui.initSettingsHandlers(async (baudRate) => {
+              const wasConnected = serialHandler.isConnected;
+              if (wasConnected) {
+                try {
+                  await serialHandler.disconnect();
+                  // Small delay to ensure port is properly closed
+                  await new Promise((resolve) => setTimeout(resolve, 100));
+                } catch (e) {
+                  console.error("Disconnection error:", e);
+                  ui.setError("Error disconnecting from port");
+                  return;
+                }
+              }
+
+              try {
+                await serialHandler.connect(baudRate);
+              } catch (e) {
+                ui.setError(UI_TEXTS.CONNECTION_ERROR);
+                console.error("Connection error:", e);
+              }
+            }, keyHandler);
+
+            async function connectToPort() {
+              try {
+                await serialHandler.connect(ui.getBaudRate());
+              } catch (e) {
+                ui.setError(UI_TEXTS.CONNECTION_ERROR);
+                console.error("Connection error:", e);
+              }
+            }
+
+            // Setup connection handlers
+            ui.elements.btnRequestPermission.onclick = async () => {
+              try {
+                const result = await serialHandler.requestPort();
+                if (result.success) {
+                  ui.updatePortInfo(result.port.getInfo());
+                  ui.enableConnectButton(true);
+                  // Auto-connect when port is selected
+                  await connectToPort();
+                }
+              } catch (error) {
+                console.log("Port selection cancelled or error occurred");
+              }
+            };
+
+            ui.elements.btnConnect.onclick = async () => {
+              try {
+                if (serialHandler.isConnected) {
+                  await serialHandler.disconnect();
+                } else {
+                  await connectToPort();
+                }
+              } catch (e) {
+                ui.setError(UI_TEXTS.CONNECTION_ERROR);
+                console.error("Connection error:", e);
+              }
+            };
+
+            // Check for existing permissions and auto-connect to last used port
+            try {
+              const ports = await SerialHandler.getAvailablePorts();
+              if (ports.length > 0) {
+                const port = ports[0];
+                serialHandler.port = port; // Set the port directly
+                ui.updatePortInfo(port.getInfo());
+                ui.enableConnectButton(true);
+                // Auto-connect to last used port
+                await connectToPort();
+              }
+            } catch (error) {
+              console.log("No previously authorized ports");
+            }
+
+            // Handle disconnection
+            navigator.serial.addEventListener("disconnect", (e) => {
+              if (e.target === serialHandler.port) {
+                ui.updatePortInfo(null);
+                ui.enableConnectButton(false);
+              }
+            });
+
+            // Handle connection errors
+            window.addEventListener("unhandledrejection", (event) => {
+              console.error("Unhandled promise rejection:", event.reason);
+              if (event.reason.name === "NotFoundError") {
+                event.preventDefault();
+              }
+            });
+          } catch (error) {
+            console.error("Initialization error:", error);
+          }
+        })();
+      }
+
+      // Load SVG dynamically
+      fetch("assets/pad.svg")
+        .then((response) => response.text())
+        .then((svg) => {
+          document.getElementById("svg-container").innerHTML = svg;
+        });
+    </script>
+  </body>
+</html>

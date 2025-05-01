@@ -1,0 +1,49 @@
+body {
+    width: 100%;
+    margin: 20px auto 0;
+    display: block;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.connect-icon,
+.disconnect-icon {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.browser-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.content-wrapper {
+    transition: all 0.3s ease;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.content-wrapper.with-warning {
+    margin-top: 5rem;
+}
+
+.btn {
+    min-width: 40px;
+    min-height: 40px;
+}
+
+.container {
+    width: 500px !important;
+    max-width: 500px !important;
+    min-width: 500px !important;
+    margin: 0 auto;
+}
+
+#settingsDialog {
+    margin-top: 20px;
+}

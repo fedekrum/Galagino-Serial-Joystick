@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 771.81 564.45">
+    <defs>
+        <style>
+            .cls-1 {
+                fill: #fff;
+            }
+
+            .cls-2 {
+                fill: #fff;
+            }
+
+
+            .cls-1, .cls-2 {
+                stroke: #000;
+                stroke-miterlimit: 10;
+                fill: #fff;
+            }
+
+            .cls-3 {
+                fill: none;
+                stroke: #000;
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <g id="design">
+        <rect class="cls-2" x=".5" y="252.67" width="770.81" height="311.29"/>
+        <path class="cls-3" d="M395.99,235.95s14.45-39.23-62.46-81.05S492.52,29.46,490.46.04"/>
+    </g>
+    <g id="up">
+        <polygon class="cls-1" points="165.23 378.86 140.23 403.86 115.23 378.86 115.23 328.86 165.23 328.86 165.23 378.86"/>
+    </g>
+    <g id="down">
+        <polygon class="cls-1" points="115.23 433.32 140.23 408.31 165.23 433.32 165.23 483.32 115.23 483.32 115.23 433.32"/>
+    </g>
+    <g id="left">
+        <polygon class="cls-1" points="113 381.09 138.01 406.09 113 431.09 63 431.09 63 381.09 113 381.09"/>
+    </g>
+    <g id="right">
+        <polygon class="cls-1" points="167.46 431.09 142.46 406.09 167.46 381.09 217.46 381.09 217.46 431.09 167.46 431.09"/>
+    </g>
+    <g id="a">
+        <circle class="cls-1" cx="673.94" cy="341.07" r="30"/>
+    </g>
+    <g id="b">
+        <circle class="cls-1" cx="597.9" cy="412.29" r="30"/>
+    </g>
+    <g id="disconnected">
+        <rect class="cls-1" x="358.3" y="62.5" width="36.65" height="33.55"/>
+    </g>
+    <g id="select">
+        <rect class="cls-1" x="290.4" y="349.26" width="61.43" height="23.23" rx="11.62" ry="11.62"/>
+    </g>
+    <g id="start">
+        <rect class="cls-1" x="419.97" y="349.26" width="61.43" height="23.23" rx="11.62" ry="11.62"/>
+    </g>
+</svg> 
